@@ -1,6 +1,7 @@
 import { Request, Response, Router } from 'express';
 import {
   createUser,
+  deleteUser,
   getUserById,
   getUsers,
   updateUser,
@@ -28,6 +29,12 @@ router.put('/:id', async (req: Request, res: Response) => {
   const user = await updateUser(parseInt(req.params.id), req.body);
 
   res.json(user);
+});
+
+router.delete('/:id', async (req: Request, res: Response) => {
+  await deleteUser(parseInt(req.params.id));
+
+  res.status(204).send();
 });
 
 export const UserController = router;

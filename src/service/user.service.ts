@@ -38,3 +38,11 @@ export const updateUser = async (id: number, data: Partial<User>) => {
 
   return user;
 };
+
+export const deleteUser = async (id: number) => {
+  const user = await DI.users.findOneOrFail({ id });
+
+  user.isActive = false;
+
+  await DI.em.persistAndFlush(user);
+};
