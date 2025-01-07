@@ -27,6 +27,7 @@ const main = async () => {
   const port = process.env.PORT || 8000;
 
   app.use(express.json());
+  app.use(express.urlencoded({ extended: true }));
   app.use((req, res, next) => RequestContext.create(DI.orm.em, next));
 
   app.get('/', (req: Request, res: Response) => {
