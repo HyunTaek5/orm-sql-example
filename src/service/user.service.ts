@@ -1,5 +1,6 @@
-import { DI } from 'src/index';
 import { QueryOrder } from '@mikro-orm/core';
+
+import { DI } from 'src/index';
 import { User } from 'src/domain/user.entity';
 
 export const getUsers = async () => {
@@ -22,6 +23,16 @@ export const createUser = async (data: Pick<User, 'name' | 'email'>) => {
 
   user.name = data.name;
   user.email = data.email;
+
+  await DI.em.persistAndFlush(user);
+
+  return user;
+};
+
+export const updateUser = async (id: number, data: Partial<User>) => {
+  const user = await DI.users.findOneOrFail({ id });
+
+  Object.assign(user, data);
 
   await DI.em.persistAndFlush(user);
 
